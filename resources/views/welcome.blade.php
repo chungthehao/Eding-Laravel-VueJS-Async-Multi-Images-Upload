@@ -4,92 +4,92 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Laravel</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
+            nav.navbar {
+                margin-bottom: 0;
             }
 
-            .full-height {
-                height: 100vh;
+            #image-form-wrapper {
+                padding-top: 20px;
+                background: #f7f7f7;
             }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
+            #images {
+                background: #eee;
+                padding: 20px 0;
             }
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        My Images
+                    </a>
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="#">Home</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
+        </nav>
+
+        <section id="image-form-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Upload Your Images
+                            </div>
+
+                            <div class="panel-body">
+                                <form action="/" method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input type="text" class="form-control" name="title">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Image</label>
+                                        <input type="file" class="form-control" name="image">
+                                    </div>
+
+                                    <div class="text-right">
+                                        <button class="btn btn-success" type="submit">Upload</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="images">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <img src="http://via.placeholder.com/450x300" alt="">
+                        </div>
+
+                        <div class="caption">
+                            <h3>Image Title</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
