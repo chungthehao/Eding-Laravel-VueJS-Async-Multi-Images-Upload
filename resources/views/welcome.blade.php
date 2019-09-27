@@ -66,14 +66,10 @@
 
                                 <form action="/" method="post" enctype="multipart/form-data">
                                     {{ csrf_field() }}
-                                    <div class="form-group">
-                                        <label>Title</label>
-                                        <input type="text" class="form-control" name="title">
-                                    </div>
 
                                     <div class="form-group">
                                         <label>Image</label>
-                                        <input type="file" class="" name="image">
+                                        <input type="file" class="" name="images[]" multiple>
                                     </div>
 
                                     <div class="text-right">
@@ -94,15 +90,15 @@
                         <div class="col-md-4">
                             <div class="thumbnail">
                                 <img src="{{ $image->link }}" alt="">
-                            </div>
 
-                            <div class="caption">
-                                <h3>{{ $image->title }}</h3>
+                                <div class="caption">
+                                    <h3>{{ $image->title }}</h3>
+                                </div>
                             </div>
                         </div>
                     @empty
                         <div class="col-md-12 text-center">
-                            <h3 class="text-danger">
+                            <h3 class="text-warning">
                                 No images
                             </h3>
                         </div>

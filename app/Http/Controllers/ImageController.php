@@ -20,18 +20,53 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'image|mimes:jpg,jpeg,png,bmp,gif',
-            'title' => 'required',
+            'images.*' => 'image|mimes:jpg,jpeg,png,bmp,gif',
         ]);
 
-        $img = new Image();
-        $img->title = $request->post('title');
-        $img->image_storage_path = $this->uploadImage($request);
-        $img->save();
+        $uploadedImageInfoArr = $this->uploadImages($request);
 
-        return redirect('/')->with('message', 'Your image successfully uploaded!');
+        foreach ($uploadedImageInfoArr as $uploadedImageInfo) {
+            list($storagePath, $title) = $uploadedImageInfo;
+
+            $img                     = new Image();
+            $img->image_storage_path = $storagePath;
+            $img->title              = $title;
+            $img->save();
+        }
+
+        return redirect('/')->with('message', 'Your image(s) successfully uploaded!');
     }
 
+    protected function uploadImages($request)
+    {
+        $uploadedImages = [];
+
+        if ($request->hasFile('images')) {
+            $imgs = $request->file('images');
+
+            foreach ($imgs as $img) {
+                $uploadedImages[] = $this->uploadImage($img);
+            }
+        }
+
+        return $uploadedImages;
+    }
+
+    protected function uploadImage($i)
+    {
+        $originalName           = $i->getClientOriginalName(); // include extension
+        $ext                    = $i->getClientOriginalExtension();
+        $originalNameWithoutExt = pathinfo($originalName, PATHINFO_FILENAME); // trả về tên file ko có phần mở rộng
+        $fileName               = str_slug($originalNameWithoutExt) . "_" . time() . "." . $ext;
+
+        // Xem trong config/filesystems.php (default là local, root trỏ sẵn vô 'app' rồi)
+        $uploadedFilePath = $i->storeAs('public', $fileName); // Trả về name random string: public/svdG82olHR55QxTTjQmxr8yedyjS8YYsC7gce9xi.jpeg nếu dùng 'store'
+
+        return [$uploadedFilePath, $originalNameWithoutExt];
+    }
+
+    # Second approach
+    /*
     protected function uploadImage($request)
     {
         if ($request->hasFile('image')) {
@@ -42,11 +77,12 @@ class ImageController extends Controller
             $fileName               = str_slug($originalNameWithoutExt) . "_" . time() . "." . $ext;
 
             // Xem trong config/filesystems.php (default là local, root trỏ sẵn vô 'app' rồi)
-            return $i->storeAs('public', $fileName); // Trả về name random string: public/svdG82olHR55QxTTjQmxr8yedyjS8YYsC7gce9xi.jpeg
+            return $i->storeAs('public', $fileName); // Trả về name random string: public/svdG82olHR55QxTTjQmxr8yedyjS8YYsC7gce9xi.jpeg nếu dùng 'store'
         }
 
         return null;
     }
+    */
 
     # First approach
     /*
