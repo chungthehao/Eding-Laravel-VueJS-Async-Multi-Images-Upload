@@ -60,6 +60,8 @@
                                             @endforeach
                                         </ul>
                                     </div>
+                                @elseif (session('message'))
+                                    <div class="alert alert-info">{{ session('message') }}</div>
                                 @endif
 
                                 <form action="/" method="post" enctype="multipart/form-data">
@@ -88,15 +90,23 @@
         <section id="images">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="thumbnail">
-                            <img src="http://via.placeholder.com/450x300" alt="">
-                        </div>
+                    @forelse ($images as $image)
+                        <div class="col-md-4">
+                            <div class="thumbnail">
+                                <img src="{{ $image->link }}" alt="">
+                            </div>
 
-                        <div class="caption">
-                            <h3>Image Title</h3>
+                            <div class="caption">
+                                <h3>{{ $image->title }}</h3>
+                            </div>
                         </div>
-                    </div>
+                    @empty
+                        <div class="col-md-12 text-center">
+                            <h3 class="text-danger">
+                                No images
+                            </h3>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </section>
