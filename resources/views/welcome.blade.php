@@ -52,6 +52,16 @@
                             </div>
 
                             <div class="panel-body">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
                                 <form action="/" method="post" enctype="multipart/form-data">
                                     {{ csrf_field() }}
                                     <div class="form-group">
@@ -61,7 +71,7 @@
 
                                     <div class="form-group">
                                         <label>Image</label>
-                                        <input type="file" class="form-control" name="image">
+                                        <input type="file" class="" name="image">
                                     </div>
 
                                     <div class="text-right">
