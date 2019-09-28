@@ -20,7 +20,7 @@
         name: 'FileInput',
         data() {
             return {
-                images: []
+                images: [],
             };
         },
         computed: {

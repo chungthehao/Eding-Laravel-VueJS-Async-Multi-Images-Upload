@@ -3,7 +3,7 @@
         <div class="progress-bar progress-bar-info progress-bar-striped"
              role="progressbar"
              :style="{ width: progressPercent }">
-            {{progressPercent}}
+            {{ progress < 100 ? progressPercent : 'Upload Completed!' }}
         </div>
     </div>
 </template>

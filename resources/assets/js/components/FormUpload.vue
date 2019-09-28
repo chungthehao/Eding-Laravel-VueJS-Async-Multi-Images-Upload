@@ -11,10 +11,10 @@
         </div>
 
         <div class="form-group text-right">
-            <button class="btn btn-success" type="submit">Upload</button>
+            <button class="btn btn-success" type="submit" :disabled="disableUploadBtn">Upload</button>
         </div>
 
-        <progress-bar :progress="progress"></progress-bar>
+        <progress-bar :progress="progress" v-show="isUploading"></progress-bar>
     </form>
 </template>
 
@@ -28,19 +28,23 @@
         data() {
             return {
                 images: [],
-                progress: 0
+                progress: 0,
+                isUploading: false,
+                disableUploadBtn: true
             };
         },
         methods: {
-            handleSubmit() {
+            async handleSubmit() {
                 let formData = new FormData();
 
                 Array.from(this.images).forEach(image => {
                     formData.append('images[]', image, image.name);
                 });
 
-                axios
-                    .post(
+                try {
+                    this.isUploading = true;
+                    this.disableUploadBtn = true;
+                    const res = await axios.post(
                         '/api/images',
                         formData,
                         {
@@ -51,14 +55,21 @@
                                 }
                             }
                         }
-                    )
-                    .then(res => console.log('Upload completed!'))
-                    .catch(err => console.log('Upload failed!'));
+                    );
+                    console.log('Upload completed!');
 
-                this.images = []; // Reset
+                    setTimeout(() => this.isUploading = false, 1000);
+                    this.images = []; // Reset
+                } catch (err) {
+                    console.log(err);
+                    console.log('Upload Failed!');
+                    this.isUploading = false;
+
+                }
             },
             setImage(files) {
                 this.images = files; // 2 biến object cùng trỏ tới 1 memory
+                this.disableUploadBtn = false;
             }
         }
     }
