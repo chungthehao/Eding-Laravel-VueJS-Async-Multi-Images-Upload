@@ -9,7 +9,8 @@
             <file-input @file-change="setImages"
                         :images="images"
                         @clear-file="clearImages"
-                        :isUploading="isUploading"></file-input>
+                        :isUploading="isUploading"
+                        :key="needReload"></file-input>
             <!--<input type="file" class="" name="images[]" multiple>-->
         </div>
 
@@ -24,6 +25,7 @@
 <script>
     import FileInput from './FileInput';
     import ProgressBar from './ProgressBar';
+    import EventBus from '../eventBus';
 
     export default {
         name: 'FormUpload',
@@ -33,7 +35,8 @@
                 images: [],
                 progress: 0,
                 isUploading: false,
-                disableUploadBtn: true
+                disableUploadBtn: true,
+                needReload: Math.random(),
             };
         },
         methods: {
@@ -63,6 +66,7 @@
 
                     setTimeout(() => this.isUploading = false, 1000);
                     this.images = []; // Reset
+                    EventBus.$emit('images-just-uploaded');
                 } catch (err) {
                     console.log(err);
                     console.log('Upload Failed!');
@@ -72,6 +76,7 @@
             },
             setImages(files) {
                 this.images = files;
+                this.needReload = Math.random();
                 this.disableUploadBtn = false;
             },
             clearImages() {

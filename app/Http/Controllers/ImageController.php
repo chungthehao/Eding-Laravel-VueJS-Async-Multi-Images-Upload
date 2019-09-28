@@ -7,14 +7,15 @@ use Illuminate\Http\Request;
 
 class ImageController extends Controller
 {
+    public function getImages()
+    {
+        $images = Image::latest()->get();
+        return response()->json($images, 200);
+    }
 
     public function index()
     {
-        $images = Image::latest()->get();
-
-        return view('welcome', [
-            'images' => $images
-        ]);
+        return view('welcome');
     }
 
     public function store(Request $request)

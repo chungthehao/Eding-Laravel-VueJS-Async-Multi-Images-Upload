@@ -16,7 +16,8 @@ window.Vue = require('vue');
  */
 
 Vue.component('form-upload', require('./components/FormUpload.vue'));
+Vue.component('images', require('./components/Images.vue'));
 
 const app = new Vue({
-    el: '#image-form-wrapper'
+    el: '#app-cua-tao'
 });

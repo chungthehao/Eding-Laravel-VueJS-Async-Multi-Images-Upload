@@ -26,75 +26,61 @@
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-default">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">
-                        My Images
-                    </a>
+        <div id="app-cua-tao">
+            <nav class="navbar navbar-default">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">
+                            My Images
+                        </a>
 
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="#">Home</a>
-                        </li>
-                    </ul>
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href="#">Home</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
 
-        <section id="image-form-wrapper">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-offset-3 col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Upload Your Images
-                            </div>
+            <section id="image-form-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Upload Your Images
+                                </div>
 
-                            <div class="panel-body">
-                                @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @elseif (session('message'))
-                                    <div class="alert alert-info">{{ session('message') }}</div>
-                                @endif
+                                <div class="panel-body">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @elseif (session('message'))
+                                        <div class="alert alert-info">{{ session('message') }}</div>
+                                    @endif
 
-                                <form-upload></form-upload>
+                                    <form-upload></form-upload>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="images">
-            <div class="container">
-                <div class="row">
-                    @forelse ($images as $image)
-                        <div class="col-md-4">
-                            <div class="thumbnail">
-                                <img src="{{ $image->link }}" alt="">
-
-                                <div class="caption">
-                                    <h3>{{ $image->title }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-md-12 text-center">
-                            <h3 class="text-warning">
-                                No images
-                            </h3>
-                        </div>
-                    @endforelse
+            <section id="images">
+                <div class="container">
+                    <div class="row">
+                        <images></images>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
