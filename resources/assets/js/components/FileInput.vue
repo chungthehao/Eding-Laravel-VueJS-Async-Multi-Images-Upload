@@ -5,7 +5,11 @@
                    placeholder="Choose your image" readonly>
 
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button" @click="showFilePicker">
+                <button v-if="images.length && !isUploading" class="btn btn-default" type="button" @click="clearFiles">
+                    <i class="glyphicon glyphicon-ban-circle text-danger"></i>
+                </button>
+
+                <button class="btn btn-default" type="button" @click="showFilePicker" :disabled="isUploading">
                     <i class="glyphicon glyphicon-paperclip"></i>
                 </button>
             </span>
@@ -18,11 +22,7 @@
 <script>
     export default {
         name: 'FileInput',
-        data() {
-            return {
-                images: [],
-            };
-        },
+        props: ['images', 'isUploading'],
         computed: {
             nameList() {
                 // * Chuyển FileList obj (half an array) ---> a real array
@@ -35,9 +35,10 @@
                 this.$refs.imageRef.click();
             },
             onChangeFile($event) {
-                this.images = $event.target.files;
-
-                this.$emit('file-change', this.images);
+                this.$emit('file-change', $event.target.files);
+            },
+            clearFiles() {
+                this.$emit('clear-file');
             }
         }
     }

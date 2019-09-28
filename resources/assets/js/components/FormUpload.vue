@@ -6,7 +6,10 @@
         <div class="form-group">
             <label>Image</label>
 
-            <file-input @file-change="setImage"></file-input>
+            <file-input @file-change="setImages"
+                        :images="images"
+                        @clear-file="clearImages"
+                        :isUploading="isUploading"></file-input>
             <!--<input type="file" class="" name="images[]" multiple>-->
         </div>
 
@@ -67,9 +70,13 @@
 
                 }
             },
-            setImage(files) {
-                this.images = files; // 2 biến object cùng trỏ tới 1 memory
+            setImages(files) {
+                this.images = files;
                 this.disableUploadBtn = false;
+            },
+            clearImages() {
+                this.images = [];
+                this.disableUploadBtn = true;
             }
         }
     }

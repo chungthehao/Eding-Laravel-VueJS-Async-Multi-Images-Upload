@@ -44588,7 +44588,7 @@ exports = module.exports = __webpack_require__(42)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -45068,15 +45068,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'FileInput',
-    data: function data() {
-        return {
-            images: []
-        };
-    },
-
+    props: ['images', 'isUploading'],
     computed: {
         nameList: function nameList() {
             // * Chuyển FileList obj (half an array) ---> a real array
@@ -45091,9 +45090,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$refs.imageRef.click();
         },
         onChangeFile: function onChangeFile($event) {
-            this.images = $event.target.files;
-
-            this.$emit('file-change', this.images);
+            this.$emit('file-change', $event.target.files);
+        },
+        clearFiles: function clearFiles() {
+            this.$emit('clear-file');
         }
     }
 });
@@ -45115,11 +45115,27 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("span", { staticClass: "input-group-btn" }, [
+        _vm.images.length && !_vm.isUploading
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-default",
+                attrs: { type: "button" },
+                on: { click: _vm.clearFiles }
+              },
+              [
+                _c("i", {
+                  staticClass: "glyphicon glyphicon-ban-circle text-danger"
+                })
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "button",
           {
             staticClass: "btn btn-default",
-            attrs: { type: "button" },
+            attrs: { type: "button", disabled: _vm.isUploading },
             on: { click: _vm.showFilePicker }
           },
           [_c("i", { staticClass: "glyphicon glyphicon-paperclip" })]
@@ -45246,7 +45262,7 @@ exports = module.exports = __webpack_require__(42)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -45267,6 +45283,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
+//
+//
 //
 //
 //
@@ -45368,9 +45387,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
             return handleSubmit;
         }(),
-        setImage: function setImage(files) {
-            this.images = files; // 2 biến object cùng trỏ tới 1 memory
+        setImages: function setImages(files) {
+            this.images = files;
             this.disableUploadBtn = false;
+        },
+        clearImages: function clearImages() {
+            this.images = [];
+            this.disableUploadBtn = true;
         }
     }
 });
@@ -45400,7 +45423,10 @@ var render = function() {
         [
           _c("label", [_vm._v("Image")]),
           _vm._v(" "),
-          _c("file-input", { on: { "file-change": _vm.setImage } })
+          _c("file-input", {
+            attrs: { images: _vm.images, isUploading: _vm.isUploading },
+            on: { "file-change": _vm.setImages, "clear-file": _vm.clearImages }
+          })
         ],
         1
       ),
