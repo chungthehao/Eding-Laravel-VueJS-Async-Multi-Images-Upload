@@ -10,21 +10,25 @@
             <!--<input type="file" class="" name="images[]" multiple>-->
         </div>
 
-        <div class="text-right">
+        <div class="form-group text-right">
             <button class="btn btn-success" type="submit">Upload</button>
         </div>
+
+        <progress-bar :progress="progress"></progress-bar>
     </form>
 </template>
 
 <script>
     import FileInput from './FileInput';
+    import ProgressBar from './ProgressBar';
 
     export default {
         name: 'FormUpload',
-        components: { FileInput },
+        components: { FileInput, ProgressBar },
         data() {
             return {
-                images: []
+                images: [],
+                progress: 0
             };
         },
         methods: {
@@ -35,7 +39,19 @@
                     formData.append('images[]', image, image.name);
                 });
 
-                axios.post('/api/images', formData)
+                axios
+                    .post(
+                        '/api/images',
+                        formData,
+                        {
+                            onUploadProgress: e => {
+                                if (e.lengthComputable) {
+                                    this.progress = Math.ceil(e.loaded / e.total * 100);
+                                    console.log(this.progress)
+                                }
+                            }
+                        }
+                    )
                     .then(res => console.log('Upload completed!'))
                     .catch(err => console.log('Upload failed!'));
 
