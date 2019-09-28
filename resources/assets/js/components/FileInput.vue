@@ -17,6 +17,7 @@
 
 <script>
     export default {
+        name: 'FileInput',
         data() {
             return {
                 image: {}
@@ -28,6 +29,8 @@
             },
             onChangeFile($event) {
                 this.image = $event.target.files[0];
+
+                this.$emit('file-change', this.image);
             }
         }
     }

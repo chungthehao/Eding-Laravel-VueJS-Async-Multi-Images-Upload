@@ -64,20 +64,7 @@
                                     <div class="alert alert-info">{{ session('message') }}</div>
                                 @endif
 
-                                <form action="/" method="post" enctype="multipart/form-data">
-                                    {{ csrf_field() }}
-
-                                    <div class="form-group">
-                                        <label>Image</label>
-
-                                        <file-input></file-input>
-                                        {{--<input type="file" class="" name="images[]" multiple>--}}
-                                    </div>
-
-                                    <div class="text-right">
-                                        <button class="btn btn-success" type="submit">Upload</button>
-                                    </div>
-                                </form>
+                                <form-upload></form-upload>
                             </div>
                         </div>
                     </div>

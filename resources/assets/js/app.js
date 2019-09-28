@@ -15,7 +15,7 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('file-input', require('./components/FileInput.vue'));
+Vue.component('form-upload', require('./components/FormUpload.vue'));
 
 const app = new Vue({
     el: '#image-form-wrapper'
