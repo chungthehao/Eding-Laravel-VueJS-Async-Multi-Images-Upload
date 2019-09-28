@@ -69,7 +69,9 @@
 
                                     <div class="form-group">
                                         <label>Image</label>
-                                        <input type="file" class="" name="images[]" multiple>
+
+                                        <file-input></file-input>
+                                        {{--<input type="file" class="" name="images[]" multiple>--}}
                                     </div>
 
                                     <div class="text-right">
