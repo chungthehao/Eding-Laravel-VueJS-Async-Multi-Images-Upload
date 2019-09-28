@@ -44588,7 +44588,7 @@ exports = module.exports = __webpack_require__(42)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -45073,18 +45073,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     name: 'FileInput',
     data: function data() {
         return {
-            image: {}
+            images: []
         };
     },
 
+    computed: {
+        nameList: function nameList() {
+            // * Chuyển FileList obj (half an array) ---> a real array
+            // dùng Array.from(this.images)
+            return Array.from(this.images).map(function (image) {
+                return image.name;
+            }).join(', ');
+        }
+    },
     methods: {
         showFilePicker: function showFilePicker() {
             this.$refs.imageRef.click();
         },
         onChangeFile: function onChangeFile($event) {
-            this.image = $event.target.files[0];
+            this.images = $event.target.files;
 
-            this.$emit('file-change', this.image);
+            this.$emit('file-change', this.images);
         }
     }
 });
@@ -45102,7 +45111,7 @@ var render = function() {
       _c("input", {
         staticClass: "form-control",
         attrs: { type: "text", placeholder: "Choose your image", readonly: "" },
-        domProps: { value: _vm.image.name }
+        domProps: { value: _vm.nameList }
       }),
       _vm._v(" "),
       _c("span", { staticClass: "input-group-btn" }, [
@@ -45121,7 +45130,7 @@ var render = function() {
     _c("input", {
       ref: "imageRef",
       staticStyle: { display: "none" },
-      attrs: { type: "file" },
+      attrs: { type: "file", multiple: "" },
       on: { change: _vm.onChangeFile }
     })
   ])
@@ -45237,7 +45246,7 @@ exports = module.exports = __webpack_require__(42)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -45276,23 +45285,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { FileInput: __WEBPACK_IMPORTED_MODULE_0__FileInput___default.a },
     data: function data() {
         return {
-            image: {}
+            images: []
         };
     },
 
     methods: {
         handleSubmit: function handleSubmit() {
             var formData = new FormData();
-            formData.append('images[]', this.image);
+
+            Array.from(this.images).forEach(function (image) {
+                formData.append('images[]', image, image.name);
+            });
 
             axios.post('/api/images', formData).then(function (res) {
                 return console.log('Upload completed!');
             }).catch(function (err) {
                 return console.log('Upload failed!');
             });
+
+            this.images = []; // Reset
         },
-        setImage: function setImage(file) {
-            this.image = file; // 2 biến object cùng trỏ tới 1 memory
+        setImage: function setImage(files) {
+            this.images = files; // 2 biến object cùng trỏ tới 1 memory
         }
     }
 });

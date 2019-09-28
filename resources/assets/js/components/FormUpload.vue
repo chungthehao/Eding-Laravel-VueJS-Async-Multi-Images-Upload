@@ -1,7 +1,7 @@
 <template>
     <!--<form action="/" method="post" enctype="multipart/form-data">-->
     <form @submit.prevent="handleSubmit">
-        <!--{{ csrf_field() }}-->
+        <!--{{ csrf_field() }} Dùng axios, miễn trong template có thẻ meta csrf-token, trong app.js đã include nó vô header axios -->
 
         <div class="form-group">
             <label>Image</label>
@@ -24,20 +24,25 @@
         components: { FileInput },
         data() {
             return {
-                image: {}
+                images: []
             };
         },
         methods: {
             handleSubmit() {
                 let formData = new FormData();
-                formData.append('images[]', this.image);
+
+                Array.from(this.images).forEach(image => {
+                    formData.append('images[]', image, image.name);
+                });
 
                 axios.post('/api/images', formData)
                     .then(res => console.log('Upload completed!'))
                     .catch(err => console.log('Upload failed!'));
+
+                this.images = []; // Reset
             },
-            setImage(file) {
-                this.image = file; // 2 biến object cùng trỏ tới 1 memory
+            setImage(files) {
+                this.images = files; // 2 biến object cùng trỏ tới 1 memory
             }
         }
     }
