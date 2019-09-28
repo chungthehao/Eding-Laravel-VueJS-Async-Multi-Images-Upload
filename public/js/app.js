@@ -45237,7 +45237,7 @@ exports = module.exports = __webpack_require__(42)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -45282,7 +45282,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         handleSubmit: function handleSubmit() {
-            console.log(this.image.name);
+            var formData = new FormData();
+            formData.append('images[]', this.image);
+
+            axios.post('/api/images', formData).then(function (res) {
+                return console.log('Upload completed!');
+            }).catch(function (err) {
+                return console.log('Upload failed!');
+            });
         },
         setImage: function setImage(file) {
             this.image = file; // 2 biến object cùng trỏ tới 1 memory

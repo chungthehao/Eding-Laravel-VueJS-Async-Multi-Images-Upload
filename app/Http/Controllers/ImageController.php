@@ -34,7 +34,10 @@ class ImageController extends Controller
             $img->save();
         }
 
-        return redirect('/')->with('message', 'Your image(s) successfully uploaded!');
+        return response()->json([
+            'uploaded' => true
+        ]);
+        //return redirect('/')->with('message', 'Your image(s) successfully uploaded!');
     }
 
     protected function uploadImages($request)

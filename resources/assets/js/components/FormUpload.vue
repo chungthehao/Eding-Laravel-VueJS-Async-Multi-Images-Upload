@@ -29,7 +29,12 @@
         },
         methods: {
             handleSubmit() {
-                console.log(this.image.name)
+                let formData = new FormData();
+                formData.append('images[]', this.image);
+
+                axios.post('/api/images', formData)
+                    .then(res => console.log('Upload completed!'))
+                    .catch(err => console.log('Upload failed!'));
             },
             setImage(file) {
                 this.image = file; // 2 biến object cùng trỏ tới 1 memory
